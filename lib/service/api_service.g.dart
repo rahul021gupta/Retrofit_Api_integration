@@ -34,7 +34,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              'ps17/ps17-moduledemo/api/mobikul/getmoreproduct?p=1&id_lang=1&id_customer=49&width=1200&id_currency=1&ws_key=WE693XSH544NBFM95R1KFQJWWNSYJL81&object=popular&outputformat=json',
+              '/ps17/ps17-moduledemo/api/mobikul/getmoreproduct?p=1&id_lang=1&id_customer=49&width=1200&id_currency=1&ws_key=WE693XSH544NBFM95R1KFQJWWNSYJL81&object=popular&outputformat=json',
               queryParameters: queryParameters,
               data: _data,
             )

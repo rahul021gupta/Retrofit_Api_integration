@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:retrofit_api/model/mymodel.dart';
+import 'package:retrofit_api/model/model.dart';
 import 'package:retrofit_api/service/api_service.dart';
 
 class Home extends StatelessWidget {
@@ -9,24 +9,27 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Retrofit")),
+        appBar: AppBar(title: const Text("Retrofit")),
         //body: Text("Hiii"),
         body: _buildBody(context));
   }
 
-  FutureBuilder<MyModel> _buildBody(BuildContext context) {
+  FutureBuilder<dynamic> _buildBody(BuildContext context) {
     final apiService =
         ApiService(Dio(BaseOptions(contentType: "application/json")));
     return FutureBuilder(
       future: apiService.getPosts(),
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           print('data is here: ${snapshot.data}');
+
           return ListView.builder(
             itemCount: snapshot.data?.products?.allproducts!.product?.length,
             itemBuilder: (context, index) {
               print(
                   "Hiiiiiiiiiii $snapshot.data?.products?.allproducts!.product?.length");
+              print(
+                  'data is here: ${snapshot.data?.products?.allproducts?.product![index].imageLink ?? ""}');
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
@@ -61,14 +64,26 @@ class Home extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("data")
-                                  // Text(
-                                  //     snapshot.data?.products!.allproducts
-                                  //         ?.product![index].name as String,
-                                  //     overflow: TextOverflow.ellipsis),
-                                  // Text(snapshot.data?.products!.allproducts
-                                  //     ?.product![index] as String),
-// Text(snapshot.data.products.allproducts.product[index].idProduct),
+                                  Text(
+                                      snapshot.data?.products!.allproducts
+                                          ?.product![index].name,
+                                      overflow: TextOverflow.ellipsis),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        snapshot.data?.products!.allproducts
+                                                ?.product![index].oldPrice ??
+                                            "",
+                                      ),
+                                      SizedBox(
+                                        width: 6,
+                                      ),
+                                      Text(
+                                        snapshot.data?.products!.allproducts
+                                            ?.product![index].price,
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),
